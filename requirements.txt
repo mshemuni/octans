@@ -1,0 +1,10 @@
+astropy
+astroquery
+numpy
+lightkurve
+requests
+pandas
+matplotlib
+scipy
+selenium
+bs4

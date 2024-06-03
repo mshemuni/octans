@@ -1,0 +1,17 @@
+astropy
+astroquery
+numpy
+lightkurve
+requests
+pandas
+matplotlib
+scipy
+selenium
+bs4
+
+pytest
+pytest-cov
+mypy
+flake8
+tox
+tox-gh-actions
