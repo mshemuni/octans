@@ -385,5 +385,5 @@ class XLightCurve(ModelXLightCurve, LightCurve):
 
     def fold_phase(self, minimum_time: Time, period: float) -> Self:
         """Fold the lightcurve using Phase"""
-        phase = ((self.time.jd - minimum_time.jd - period / 2) / period) % 1
+        phase = ((self.time.jd - minimum_time.jd - period.to("day").value / 2) / period.to("day").value) % 1
         return self.__class__(phase, self.flux, self.flux_err)

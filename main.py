@@ -1,20 +1,15 @@
-import matplotlib.pyplot as plt
-from octans import XLightCurve
-import pandas as pd
+from octans import Portal
 
-# Get data
-data = pd.read_csv("data/CHSS_3072_S56_120__final.csv")
+from matplotlib import pyplot as plt
 
-# Create XLightCurve object
-xlc = XLightCurve(
-    data["TIME"],
-    data["NORM_DT_SAP_FLUX"],
-    data["NORM_DT_SAP_FLUX_ERR"]
-)
+p = Portal.from_name("Kepler-9")
 
-# Smooth the lightcurve
-folded_xlc = xlc.fold_periodogram()
+tess_xlcs = p.tess()
 
-# plot
-folded_xlc.plot()
+fig, ax = plt.subplots()
+
+for i, tess_xlc in enumerate(tess_xlcs):
+    tess_xlc.plot(ax=ax)
+
+ax.get_legend().remove()
 plt.show()

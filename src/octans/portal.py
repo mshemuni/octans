@@ -233,7 +233,7 @@ class ASAS:
 
         return respond.text
 
-    def get(self) -> XLightCurve:
+    def get(self) -> List[XLightCurve]:
         content = self.data()
         the_lc = pd.DataFrame(
             columns=["HJD", "MAG_4", "MAG_0", "MAG_1", "MAG_2", "MAG_3", "MER_4", "MER_0", "MER_1", "MER_2", "MER_3",
@@ -260,10 +260,32 @@ class ASAS:
                 )
             ])
 
-        lcx = XLightCurve(
-            Time(the_lc["HJD"], format="jd", scale="utc"),
-            magnitude_to_flux(the_lc["MAG_0"].to_numpy()),
-            magnitude_to_flux(the_lc["MER_0"].to_numpy())
-        )
+        lcx = [
+            XLightCurve(
+                Time(the_lc["HJD"], format="jd", scale="utc"),
+                magnitude_to_flux(the_lc["MAG_0"].to_numpy()),
+                magnitude_to_flux(the_lc["MER_0"].to_numpy())
+            ),
+            XLightCurve(
+                Time(the_lc["HJD"], format="jd", scale="utc"),
+                magnitude_to_flux(the_lc["MAG_1"].to_numpy()),
+                magnitude_to_flux(the_lc["MER_1"].to_numpy())
+            ),
+            XLightCurve(
+                Time(the_lc["HJD"], format="jd", scale="utc"),
+                magnitude_to_flux(the_lc["MAG_2"].to_numpy()),
+                magnitude_to_flux(the_lc["MER_2"].to_numpy())
+            ),
+            XLightCurve(
+                Time(the_lc["HJD"], format="jd", scale="utc"),
+                magnitude_to_flux(the_lc["MAG_3"].to_numpy()),
+                magnitude_to_flux(the_lc["MER_3"].to_numpy())
+            ),
+            XLightCurve(
+                Time(the_lc["HJD"], format="jd", scale="utc"),
+                magnitude_to_flux(the_lc["MAG_4"].to_numpy()),
+                magnitude_to_flux(the_lc["MER_4"].to_numpy())
+            )
+        ]
 
         return lcx
