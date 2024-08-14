@@ -1,6 +1,6 @@
 astropy
 astroquery
-numpy
+numpy==1.26.4
 lightkurve
 requests
 pandas
@@ -8,6 +8,7 @@ matplotlib
 scipy
 selenium
 bs4
+webdriver_manager
 
 pytest
 pytest-cov
