@@ -47,7 +47,6 @@ def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debu
     if debug >= 2:
         log.info('points considered in pairings:', minpid, ' to ', maxpid)
 
-
     if debug >= 1:
         log.info('Z: ', z)
 

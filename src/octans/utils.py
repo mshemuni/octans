@@ -1,12 +1,39 @@
 from typing import Union
 from astropy import units
 import numpy as np
+from dataclasses import dataclass, field
+from astropy.time import Time as AstTime, TimeDelta as AstTimeDelta
+from typing_extensions import Self
+
 
 Numeric = Union[int, float]
 Angle = units.Quantity["angle"]
 Time = units.Quantity["time"]
 NAngle = Union[Numeric, Angle]
 NTime = Union[Numeric, Time]
+
+
+@dataclass
+class TimeError:
+    time: AstTime
+    error: AstTimeDelta
+
+    def __str__(self):
+        if self.time.isscalar:
+            return f"{self.time.jd} ± {self.error.jd}"
+
+        return super.__str__(self)
+
+    def __post_init__(self):
+        if self.time.isscalar:
+            if not self.error.isscalar:
+                raise ValueError("Length of time must be equal to length of error")
+        else:
+            if len(self.time) != len(self.error):
+                raise ValueError("Length of time must be equal to length of error")
+
+    def __getitem__(self, key: Union[int, slice]) -> Self:
+        return TimeError(self.time[key], self.error[key])
 
 
 def unit_checker(value, unit: units.Quantity) -> units.Quantity:

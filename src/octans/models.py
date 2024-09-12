@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .utils import NAngle
+from .utils import NAngle, TimeError
 
 from typing import List, Optional, Union, Callable, Literal, Dict, Iterable
 
@@ -39,40 +39,44 @@ class ModelXLightCurve(ABC):
         """Update time"""
 
     @abstractmethod
-    def minima_mean(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> Time:
+    def minima_mean(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> TimeError:
         """Find minima using the mean of time"""
 
     @abstractmethod
-    def minima_median(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> Time:
+    def minima_median(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> TimeError:
         """Find minima using the median of time"""
 
     @abstractmethod
-    def minima_local(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> Time:
+    def minima_local(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> TimeError:
         """Find minima using the lowest of time"""
 
     @abstractmethod
-    def minima_fit(self, boundaries: Optional[Union[np.ndarray, List]] = None, deg: int = 2) -> Time:
+    def minima_fit(self, boundaries: Optional[Union[np.ndarray, List]] = None, deg: int = 2) -> TimeError:
         """Find minima using Polynomial fit"""
 
     @abstractmethod
-    def minima_periodogram(self) -> Time:
+    def minima_periodogram(self) -> TimeError:
         """Find minima using a periodogram"""
 
     @abstractmethod
     def minima_kwee_van_woerden(self, number_of_folds: int = 5, time_off: bool = True, init_min_flux: bool = False,
-                                boundaries: Optional[Union[np.ndarray, List]] = None) -> Time:
+                                boundaries: Optional[Union[np.ndarray, List]] = None) -> TimeError:
         """Find minima using kwee van woerden method"""
 
     @abstractmethod
-    def minima_chord(self, middle_selector: Optional[Callable] = None, number_of_chords: int = 5,
-                     sigma_multiplier: float = 0.1, boundaries: Optional[Union[np.ndarray, List]] = None,
-                     fit_degree: int = 2) -> Time:
+    def minima_bisector(self, middle_selector: Optional[Callable] = None, number_of_chords: int = 5,
+                        sigma_multiplier: float = 0.1, boundaries: Optional[Union[np.ndarray, List]] = None,
+                        fit_degree: int = 2) -> TimeError:
         """Find minima using chord method"""
 
     @abstractmethod
-    def minima(self, minima_type: Literal["local", "mean", "median", "fit", "periodogram", "all", "kvw"] = "fit",
-               boundaries: Optional[Union[np.ndarray, List]] = None) -> Union[Dict[str, Time], Time]:
-        """Find minima using all available methods"""
+    def mid_egress_fielder(self, boundaries: Optional[Union[np.ndarray, List]] = None) -> TimeError:
+        """Find minima using field method"""
+
+    @abstractmethod
+    def mid_egress_wood(self, boundaries: Optional[Union[np.ndarray, List]] = None, median_width: int = 5,
+                        avg_width: int = 5, egress_width: float = 10.0) -> TimeError:
+        """Find minima using wood method"""
 
     @abstractmethod
     def smooth_b_spline(self, s: float = 1.0) -> Self:

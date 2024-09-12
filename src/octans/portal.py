@@ -1,6 +1,7 @@
 from typing import List, Optional, Literal, Tuple
 
 import numpy as np
+from tornado import auth
 
 from .errors import NoLightCurveError, PageNotFound, NoASASObject
 from .lc import XLightCurve
@@ -110,7 +111,7 @@ class Portal:
 
         lc_collection = search_result.download_all()
         return [
-            XLightCurve.from_lightkurve(lc)
+            XLightCurve(lc.time.jd, lc.flux.value, lc.flux_err.value)
             for lc in lc_collection
         ]
 
