@@ -45,9 +45,10 @@ The `pip install octans` method will be available soon, offering the most conven
 
 Examples can be found in jupyter notebooks here:
 
-- [XLightCurve](docs/xlightcurve.ipynb)
-- [Sky](docs/sky.ipynb)
-- [Portal](docs/portal.ipynb)
+- XLightCurve
+- Sky
+- Portal
 
 ## Contact
+
 For further information contact me.

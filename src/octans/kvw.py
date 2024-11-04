@@ -1,12 +1,16 @@
-import logging
+from logging import Logger
 
 import numpy as np
+from logging import getLogger
+from typing import Optional
 from scipy.optimize import curve_fit
 
-log = logging.getLogger(__name__)
 
+# https://github.com/hdeeg/KvW
+def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debug=0, logger: Optional[Logger] = None):
+    if logger is None:
+        logger = getLogger(__name__)
 
-def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debug=0):
     errflag = 0
     npts = len(time)
     minid = npts // 2
@@ -18,21 +22,21 @@ def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debu
 
     if debug >= 3:
         for i in range(npts):
-            log.info(i, flux[i])
+            logger.info(i, flux[i])
 
     difftime = time[1:] - time[:-1]
     mediandiff = np.median(difftime)
     if np.max(difftime) / mediandiff >= 1.01 or mediandiff / np.min(difftime) >= 1.01:
-        log.warning('KVW: WARN: Time-points not equidistant within 1%. Raised errorflag')
+        logger.warning('KVW: WARN: Time-points not equidistant within 1%. Raised errorflag')
         errflag += 1
 
     if init_minflux:
-        minid = np.argmin(flux)
+        minid = int(np.argmin(flux))
         if debug >= 2:
-            log.info('minid from init_minflux', minid)
+            logger.info('minid from init_minflux', minid)
 
     if debug >= 1:
-        log.info('minid ', minid)
+        logger.info('minid ', minid)
 
     noffr = (nfold - 1) / 4.0
     noff = int(noffr)
@@ -45,10 +49,10 @@ def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debu
     maxpid = maxfoldid + z
 
     if debug >= 2:
-        log.info('points considered in pairings:', minpid, ' to ', maxpid)
+        logger.info('points considered in pairings:', minpid, ' to ', maxpid)
 
     if debug >= 1:
-        log.info('Z: ', z)
+        logger.info('Z: ', z)
 
     if z < 3:
         raise ValueError(
@@ -74,11 +78,11 @@ def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debu
     maxidf = int(np.floor(foldidf[-1] + 0.50001))
     popt, _ = curve_fit(lambda x, a, b: a + b * x, np.arange(minidf, maxidf + 1), time[minidf:maxidf + 1])
     if debug >= 2:
-        log.info('popt: ', popt)
+        logger.info('popt: ', popt)
 
     timef = popt[0] + popt[1] * foldidf
     if debug >= 2:
-        log.info('timef (orig): ', timef)
+        logger.info('timef (orig): ', timef)
 
     if nfold >= 5:
         minSid = np.argmin(s)
@@ -93,16 +97,16 @@ def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debu
             timef = timef[:nSleft - nSright + 1]
             s = s[:nSleft - nSright + 1]
         if debug >= 2:
-            log.info('nSleft: ', nSleft, ' nSright: ', nSright)
+            logger.info('nSleft: ', nSleft, ' nSright: ', nSright)
 
     if debug >= 2:
-        log.warning('foldidf ', foldidf)
-        log.warning('timef ', timef)
-        log.warning('     S ', s)
+        logger.info('foldidf ', foldidf)
+        logger.info('timef ', timef)
+        logger.info('     S ', s)
 
     cp = np.polyfit(timef, s, 2, full=False)
     if debug >= 1:
-        log.info('cp (kvw): ', cp)
+        logger.info('cp (kvw): ', cp)
 
     mintim = -cp[1] / (2.0 * cp[0]) + time0
     kvwminerr = np.sqrt((4 * cp[0] * cp[2] - cp[1] ** 2) / (4 * cp[0] ** 2 * (z - 1)))
@@ -113,9 +117,9 @@ def kvw(time, flux, init_minflux=False, rms=None, nfold=5, notimeoff=False, debu
     cp[2] = (z - 1) * 2 * rms ** 2 + cp[1] ** 2 / (4 * cp[0])
     minerr = np.sqrt((4 * cp[0] * cp[2] - cp[1] ** 2) / (4 * cp[0] ** 2 * (z - 1)))
     if debug >= 1:
-        log.info('cp (revised): ', cp)
-        log.info('type of cp:', type(cp))
-        log.info('rms:', rms)
-        log.info('minerr: ', minerr)
+        logger.info('cp (revised): ', cp)
+        logger.info('type of cp:', type(cp))
+        logger.info('rms:', rms)
+        logger.info('minerr: ', minerr)
 
     return mintim, minerr, kvwminerr, errflag

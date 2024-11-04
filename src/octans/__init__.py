@@ -1,9 +1,10 @@
+from .lc import XLightCurve
 from .sky import Sky
 from .portal import Portal
-from .lc import XLightCurve
-from .portal import ASAS
+from .utils import Boundaries
+from .utils import Minima
+from .catalgues import ExoplanetEU
+from .catalgues import NASAExoplanetArchive
+from .catalgues import Period
 
-__version__ = "0.0.1 Beta"
-__author__ = "Mohammad S.Niaei"
-__all__ = ["Sky", "Portal", "ASAS", "XLightCurve"]
-__license__ = "GNU/GPL V3"
+__all__ = ["XLightCurve", "Sky", "Portal", "Boundaries", "Minima", "ExoplanetEU", "NASAExoplanetArchive", "Period"]
