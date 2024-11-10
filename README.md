@@ -34,12 +34,8 @@ pip install -e .
 This method is the simplest and recommended for most users. Once a stable release of Octans is available, you'll be able to install it directly from the Python Package Index (PyPI) using pip:
 
 ```bash
-pip install octans  # (Coming Soon)
+pip install octans
 ```
-
-**Stay Tuned!**
-
-The `pip install octans` method will be available soon, offering the most convenient installation experience. Watch for updates!
 
 ## Examples
 

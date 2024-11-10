@@ -1,22 +1,12 @@
-from octans import Portal
+from matplotlib import pyplot as plt
+from octans import Period, Portal
 
-# Create a portal for "kepler-8"
-portal = Portal.from_name("kepler-8")
+# portal = Portal.from_name("xy leo")
+period = Period.from_name("kepler-8")
 
-# Retrieve light curves
-light_curves = portal.kepler()
+the_period = 3.522499
 
-# Get the first one
-light_curve = next(light_curves)
-
-# smooth and flatten
-xlc = light_curve.smooth_butterworth_filter().flatten()
-
-# Calculate minima times with different methods
-minimas = {
-    "Mean": xlc.minima_mean(),
-    "Fit": xlc.minima_fit(),
-    "KVW": xlc.minima_kwee_van_woerden(),
-    "Bisector": xlc.minima_bisector(),
-    "fielder": xlc.minima_fielder(),
-}
+#
+# minimas = portal.var_astro()
+# minimas.oc(period=the_period).smooth(s=0.02).plot(linestyle="-", color="red")
+# plt.show()

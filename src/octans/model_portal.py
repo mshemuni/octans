@@ -5,7 +5,8 @@ from typing import Self, Optional, Literal, Iterator
 from astropy import units
 
 from . import Sky, XLightCurve
-from .utils import NAngleType, Minima
+from .utils import NAngleType
+from .minima import Minima
 
 
 class ModelPortal(ABC):

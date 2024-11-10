@@ -1,15 +1,19 @@
+import warnings
+warnings.filterwarnings("ignore")
+
 from .lc import XLightCurve
 from .sky import Sky
 from .portal import Portal
-from .utils import Boundaries
-from .utils import Minima
-from .catalgues import ExoplanetEU
-from .catalgues import NASAExoplanetArchive
-from .catalgues import Period
+from .boundaries import Boundaries
+from .minima import Minima
+from .catalogues import ExoplanetEU
+from .catalogues import NASAExoplanetArchive
+from .catalogues import VarAstro
+from .catalogues import Period
 
 __all__ = [
     "XLightCurve", "Sky", "Portal", "Boundaries",
-    "Minima", "ExoplanetEU", "NASAExoplanetArchive", "Period"
+    "Minima", "ExoplanetEU", "NASAExoplanetArchive", "VarAstro", "Period"
 ]
 
 __version__ = "0.0.1 Beta"

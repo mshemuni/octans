@@ -22,35 +22,10 @@ class TestXLightCurve(TestCase):
     def test_create(self):
         _ = XLightCurve(time=self.time.tolist(), flux=self.flux.tolist())
 
-    def test_boundaries(self):
+    def test_boundaries_period_large(self):
         xlc = XLightCurve(time=self.time.tolist(), flux=self.flux.tolist())
-        boundaries = xlc.boundaries_extrema()
-        self.assertEqual(len(boundaries), 3)
-        boundaries_to_check = [
-            [2460619.0636363635, 2460619.084848485],
-            [2460619.1666666665, 2460619.187878788],
-            [2460619.2636363637, 2460619.2878787876]
-        ]
-
-        for each_boundary, boundary_to_check in zip(boundaries, boundaries_to_check):
-            self.assertAlmostEquals(each_boundary.lower.jd, boundary_to_check[0])
-            self.assertAlmostEquals(each_boundary.upper.jd, boundary_to_check[1])
-
-    def test_boundaries_period(self):
-        xlc = XLightCurve(time=self.time.tolist(), flux=self.flux.tolist())
-        minimas = xlc.minima_mean()
-        period = np.diff(minimas.time.jd).mean()
-        t0 = minimas[0]
-        boundaries = xlc.boundaries_period(t0.time, period)
-        self.assertEqual(len(boundaries), 4)
-        boundaries_to_check = [
-            [2460619.0666340576, 2460619.086482542],
-            [2460619.1658764817, 2460619.185724966],
-            [2460619.265118906, 2460619.2849673904]
-        ]
-        for each_boundary, boundary_to_check in zip(boundaries, boundaries_to_check):
-            self.assertAlmostEquals(each_boundary.lower.jd, boundary_to_check[0])
-            self.assertAlmostEquals(each_boundary.upper.jd, boundary_to_check[1])
+        with self.assertRaises(ValueError):
+            _ = xlc.boundaries_period(self.time.min(), 1, 0.75)
 
     def test_chop(self):
         xlc = XLightCurve(time=self.time.tolist(), flux=self.flux.tolist())

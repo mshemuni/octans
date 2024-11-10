@@ -1,17 +1,20 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Self, Iterator, Optional, Callable, Any
+from typing import Self, Iterator, Optional, Callable, Any, Union
 
+from astropy import units
 from astropy.time import Time
 from lightkurve import LightCurve
 
-from .utils import Boundaries, Minima
+from .utils import Numeric
+from .minima import Minima
+from .boundaries import Boundaries
 
 
 class ModelXLightCurve(ABC):
     @classmethod
     @abstractmethod
-    def from_lightcurve(cls, lightcurve: LightCurve, logger: Optional[Logger] = None):
+    def from_lightcurve(cls, lightcurve: LightCurve, logger: Optional[Logger] = None) -> Self:
         """Create an XLightCurve object from a LightCurve object"""
 
     @abstractmethod
@@ -19,7 +22,8 @@ class ModelXLightCurve(ABC):
         """Find boundaries of each minimum using curve fit"""
 
     @abstractmethod
-    def boundaries_period(self, t0: Time, period: float, gap: float = 0.1) -> Boundaries:
+    def boundaries_period(self, minimum_time: Union[Time, Numeric], period: Union[units.Quantity["time"], Numeric],
+                          gap: Union[units.Quantity["time"], Numeric] = 0.1) -> Boundaries:
         """Find boundaries of each minimum using period"""
 
     @abstractmethod
@@ -65,7 +69,7 @@ class ModelXLightCurve(ABC):
         """Returns minima times using Kwee Van Woerden of each minima"""
 
     @abstractmethod
-    def minima_bisector(self, middle_selector: Optional[Callable[[Any], float]] = None, number_of_chords: int = 5,
+    def minima_bisector(self, middle_selector: Optional[Callable[[Any], Numeric]] = None, number_of_chords: int = 5,
                         sigma_multiplier: float = 0.1, boundaries: Optional[Boundaries] = None) -> Minima:
         """Returns minima times using bisector of each minima"""
 

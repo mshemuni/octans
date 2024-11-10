@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 
 
-class ExoplanetEUModel(ABC):
+class CatalogueModel(ABC):
     @abstractmethod
     def resolve(self) -> pd.DataFrame:
         """Resolves the given sky coordinate to the database"""
@@ -11,17 +11,6 @@ class ExoplanetEUModel(ABC):
     @abstractmethod
     def period(self) -> pd.DataFrame:
         """Returns the period of the exoplanet"""
-
-
-class NASAExoplanetArchiveModel(ABC):
-    @abstractmethod
-    def resolve(self) -> pd.DataFrame:
-        """Resolves the given sky coordinate to the database"""
-
-    @abstractmethod
-    def period(self) -> pd.DataFrame:
-        """Returns the period of the exoplanet"""
-
 
 class PeriodModel:
     @abstractmethod

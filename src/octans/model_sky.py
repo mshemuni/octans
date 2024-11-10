@@ -18,7 +18,6 @@ class ModelSky(ABC):
     def skycoord(self) -> SkyCoord:
         """Return the SkyCoord of the sky object"""
 
-    @property
     @abstractmethod
     def resolve(self) -> SkyCoord:
         """Resolves the name of the sky object"""
