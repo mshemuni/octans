@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Self, Iterator, Optional, Callable, Any, Union
+from typing import Iterator, Optional, Callable, Any, Union
+from typing_extensions import Self
 
 from astropy import units
 from astropy.time import Time

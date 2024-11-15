@@ -63,7 +63,7 @@ class OC:
 
         the_ax.plot(self.time.jd, self.oc.jd, **kwargs)
 
-    def smooth(self, s: float = 1.0):
+    def smooth(self, s: float = 1.0) -> Self:
         """
         Generates a smoothed version of the OC using B-spline fitting.
 

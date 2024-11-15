@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Self, Optional, Literal, Iterator
+from typing import Optional, Literal, Iterator
+from typing_extensions import Self
 
 from astropy import units
 

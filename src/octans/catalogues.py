@@ -3,7 +3,8 @@ from logging import Logger
 import numpy as np
 import pandas as pd
 import requests
-from typing import Optional, Self
+from typing import Optional
+from typing_extensions import Self
 
 from astropy import units
 from astropy.coordinates import SkyCoord
@@ -284,7 +285,8 @@ class VarAstro(CatalogueModel):
         the_time_out = time_checker(time_out)
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
 
         driver.get(
             f"https://var.astro.cz/en/Stars?pageId=1&pageSize=20&ra="

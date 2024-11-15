@@ -1,5 +1,6 @@
 from logging import Logger
-from typing import Self, Optional, Literal, Iterator, List, Any
+from typing import Optional, Literal, Iterator, List, Any
+from typing_extensions import Self
 
 import numpy as np
 import pandas as pd
@@ -347,7 +348,8 @@ class ASAS(ModelASAS):
 
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
         driver.get("https://www.astrouw.edu.pl/asas/?page=acvs")
 
         if not check_exists_by_xpath(driver, ASAS_XPATHS["input_coordinate"], timeout=the_time_out.to(units.s).value):
@@ -533,7 +535,8 @@ class VarAstro(ModelVarAstro):
         the_time_out = time_checker(time_out)
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
         driver.get(
             f"https://var.astro.cz/en/Stars?pageId=1&pageSize=20&ra="
             f"{sky.skycoord.ra.degree}&dec={sky.skycoord.dec.degree}&radiusArcmin="
@@ -583,7 +586,8 @@ class VarAstro(ModelVarAstro):
         """
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
         driver.get(
             f"https://var.astro.cz/en/Stars/{self.var_astro_id}"
         )
@@ -666,7 +670,8 @@ class ETD(ModelVarAstro):
 
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
         driver.get(
             f"https://var.astro.cz/en/Exoplanets?pageId=1&pageSize=20&ra="
             f"{sky.skycoord.ra.degree}&dec={sky.skycoord.dec.degree}&radiusArcmin="
@@ -711,7 +716,8 @@ class ETD(ModelVarAstro):
         """
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+        driver = webdriver.Chrome(options=options)
         driver.get(
             f"https://var.astro.cz/en/Exoplanets/{self.etd_id}"
         )
